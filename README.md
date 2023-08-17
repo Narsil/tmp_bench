@@ -183,6 +183,127 @@ top_tokens_llama2_7b_shard_1.txt
 
 # Pretty much identical to before the commit.
 
+# TOP TOKENS NUM_SHARD=4 (no topk)
+
+![Screenshot from 2023-08-17 16-52-22](https://github.com/Narsil/tmp_bench/assets/204321/19abde7a-cd39-4632-b7d7-2a812dbf530c)
+
+```
+| Parameter          | Value                               |
+|--------------------|-------------------------------------|
+| Model              | hf-internal-testing/llama-tokenizer |
+| Sequence Length    | 10                                  |
+| Decode Length      | 8                                   |
+| Top N Tokens       | None                                |
+| N Runs             | 10                                  |
+| Warmups            | 1                                   |
+| Temperature        | None                                |
+| Top K              | None                                |
+| Top P              | None                                |
+| Typical P          | None                                |
+| Repetition Penalty | None                                |
+| Watermark          | false                               |
+| Do Sample          | false                               |
+
+
+| Step           | Batch Size | Average   | Lowest    | Highest   | p50       | p90       | p99       |
+|----------------|------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| Prefill        | 1          | 18.92 ms  | 17.01 ms  | 32.72 ms  | 17.27 ms  | 32.72 ms  | 32.72 ms  |
+|                | 2          | 18.17 ms  | 17.59 ms  | 18.50 ms  | 18.38 ms  | 18.50 ms  | 18.50 ms  |
+|                | 4          | 24.14 ms  | 22.77 ms  | 35.50 ms  | 22.90 ms  | 35.50 ms  | 35.50 ms  |
+|                | 8          | 32.14 ms  | 31.80 ms  | 32.46 ms  | 32.10 ms  | 32.46 ms  | 32.46 ms  |
+|                | 16         | 51.67 ms  | 51.30 ms  | 52.04 ms  | 51.77 ms  | 52.04 ms  | 52.04 ms  |
+|                | 32         | 91.98 ms  | 91.37 ms  | 92.54 ms  | 92.03 ms  | 92.54 ms  | 92.54 ms  |
+| Decode (token) | 1          | 16.34 ms  | 15.81 ms  | 17.64 ms  | 16.46 ms  | 15.97 ms  | 15.97 ms  |
+|                | 2          | 16.64 ms  | 15.94 ms  | 19.89 ms  | 16.38 ms  | 16.30 ms  | 16.30 ms  |
+|                | 4          | 16.59 ms  | 15.61 ms  | 19.94 ms  | 16.29 ms  | 16.19 ms  | 16.19 ms  |
+|                | 8          | 17.21 ms  | 16.64 ms  | 19.92 ms  | 16.97 ms  | 17.02 ms  | 17.02 ms  |
+|                | 16         | 18.00 ms  | 17.64 ms  | 20.75 ms  | 17.71 ms  | 17.75 ms  | 17.75 ms  |
+|                | 32         | 22.09 ms  | 21.55 ms  | 23.90 ms  | 21.66 ms  | 23.90 ms  | 23.90 ms  |
+| Decode (total) | 1          | 114.40 ms | 110.67 ms | 123.45 ms | 115.22 ms | 111.82 ms | 111.82 ms |
+|                | 2          | 116.50 ms | 111.59 ms | 139.23 ms | 114.66 ms | 114.07 ms | 114.07 ms |
+|                | 4          | 116.16 ms | 109.26 ms | 139.59 ms | 114.03 ms | 113.32 ms | 113.32 ms |
+|                | 8          | 120.50 ms | 116.47 ms | 139.44 ms | 118.79 ms | 119.11 ms | 119.11 ms |
+|                | 16         | 126.02 ms | 123.46 ms | 145.29 ms | 123.97 ms | 124.26 ms | 124.26 ms |
+|                | 32         | 154.60 ms | 150.88 ms | 167.27 ms | 151.60 ms | 167.27 ms | 167.27 ms |
+
+
+| Step    | Batch Size | Average             | Lowest              | Highest             |
+|---------|------------|---------------------|---------------------|---------------------|
+| Prefill | 1          | 54.85 tokens/secs   | 30.56 tokens/secs   | 58.78 tokens/secs   |
+|         | 2          | 110.11 tokens/secs  | 108.13 tokens/secs  | 113.69 tokens/secs  |
+|         | 4          | 168.66 tokens/secs  | 112.69 tokens/secs  | 175.63 tokens/secs  |
+|         | 8          | 248.95 tokens/secs  | 246.46 tokens/secs  | 251.55 tokens/secs  |
+|         | 16         | 309.66 tokens/secs  | 307.43 tokens/secs  | 311.86 tokens/secs  |
+|         | 32         | 347.92 tokens/secs  | 345.81 tokens/secs  | 350.24 tokens/secs  |
+| Decode  | 1          | 61.27 tokens/secs   | 56.70 tokens/secs   | 63.25 tokens/secs   |
+|         | 2          | 120.62 tokens/secs  | 100.55 tokens/secs  | 125.46 tokens/secs  |
+|         | 4          | 242.18 tokens/secs  | 200.59 tokens/secs  | 256.27 tokens/secs  |
+|         | 8          | 465.87 tokens/secs  | 401.61 tokens/secs  | 480.82 tokens/secs  |
+|         | 16         | 890.81 tokens/secs  | 770.87 tokens/secs  | 907.16 tokens/secs  |
+|         | 32         | 1451.01 tokens/secs | 1339.13 tokens/secs | 1484.66 tokens/secs |
+```
+
+# TOP TOKENS NUM_SHARD=4 (topk=10)
+
+![Screenshot from 2023-08-17 16-53-27](https://github.com/Narsil/tmp_bench/assets/204321/95ed77e3-bc92-4559-8378-ac7a7e157fff)
+
+```
+| Parameter          | Value                               |
+|--------------------|-------------------------------------|
+| Model              | hf-internal-testing/llama-tokenizer |
+| Sequence Length    | 10                                  |
+| Decode Length      | 8                                   |
+| Top N Tokens       | Some(10)                            |
+| N Runs             | 10                                  |
+| Warmups            | 1                                   |
+| Temperature        | None                                |
+| Top K              | None                                |
+| Top P              | None                                |
+| Typical P          | None                                |
+| Repetition Penalty | None                                |
+| Watermark          | false                               |
+| Do Sample          | false                               |
+
+
+| Step           | Batch Size | Average   | Lowest    | Highest   | p50       | p90       | p99       |
+|----------------|------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| Prefill        | 1          | 18.55 ms  | 17.10 ms  | 26.86 ms  | 17.81 ms  | 26.86 ms  | 26.86 ms  |
+|                | 2          | 18.47 ms  | 18.27 ms  | 18.77 ms  | 18.42 ms  | 18.77 ms  | 18.77 ms  |
+|                | 4          | 23.64 ms  | 23.45 ms  | 23.79 ms  | 23.65 ms  | 23.79 ms  | 23.79 ms  |
+|                | 8          | 33.56 ms  | 32.92 ms  | 37.31 ms  | 33.24 ms  | 37.31 ms  | 37.31 ms  |
+|                | 16         | 53.63 ms  | 52.92 ms  | 56.90 ms  | 53.36 ms  | 56.90 ms  | 56.90 ms  |
+|                | 32         | 93.87 ms  | 92.57 ms  | 97.46 ms  | 93.34 ms  | 97.46 ms  | 97.46 ms  |
+| Decode (token) | 1          | 16.90 ms  | 15.98 ms  | 20.77 ms  | 16.57 ms  | 16.31 ms  | 16.31 ms  |
+|                | 2          | 17.62 ms  | 16.01 ms  | 22.14 ms  | 16.61 ms  | 22.08 ms  | 22.08 ms  |
+|                | 4          | 17.60 ms  | 16.49 ms  | 22.42 ms  | 17.50 ms  | 16.63 ms  | 16.63 ms  |
+|                | 8          | 18.38 ms  | 16.74 ms  | 22.56 ms  | 18.08 ms  | 16.94 ms  | 16.94 ms  |
+|                | 16         | 20.17 ms  | 19.44 ms  | 23.31 ms  | 19.57 ms  | 19.44 ms  | 19.44 ms  |
+|                | 32         | 25.37 ms  | 24.65 ms  | 27.48 ms  | 24.79 ms  | 27.48 ms  | 27.48 ms  |
+| Decode (total) | 1          | 118.31 ms | 111.85 ms | 145.37 ms | 116.03 ms | 114.19 ms | 114.19 ms |
+|                | 2          | 123.31 ms | 112.08 ms | 154.97 ms | 116.28 ms | 154.53 ms | 154.53 ms |
+|                | 4          | 123.19 ms | 115.42 ms | 156.96 ms | 122.52 ms | 116.44 ms | 116.44 ms |
+|                | 8          | 128.64 ms | 117.16 ms | 157.90 ms | 126.53 ms | 118.56 ms | 118.56 ms |
+|                | 16         | 141.20 ms | 136.06 ms | 163.17 ms | 137.00 ms | 136.07 ms | 136.07 ms |
+|                | 32         | 177.57 ms | 172.52 ms | 192.39 ms | 173.52 ms | 192.39 ms | 192.39 ms |
+
+
+| Step    | Batch Size | Average             | Lowest              | Highest             |
+|---------|------------|---------------------|---------------------|---------------------|
+| Prefill | 1          | 54.79 tokens/secs   | 37.23 tokens/secs   | 58.49 tokens/secs   |
+|         | 2          | 108.30 tokens/secs  | 106.56 tokens/secs  | 109.44 tokens/secs  |
+|         | 4          | 169.20 tokens/secs  | 168.10 tokens/secs  | 170.54 tokens/secs  |
+|         | 8          | 238.65 tokens/secs  | 214.39 tokens/secs  | 243.02 tokens/secs  |
+|         | 16         | 298.44 tokens/secs  | 281.17 tokens/secs  | 302.33 tokens/secs  |
+|         | 32         | 340.96 tokens/secs  | 328.32 tokens/secs  | 345.70 tokens/secs  |
+| Decode  | 1          | 59.48 tokens/secs   | 48.15 tokens/secs   | 62.58 tokens/secs   |
+|         | 2          | 115.12 tokens/secs  | 90.34 tokens/secs   | 124.91 tokens/secs  |
+|         | 4          | 228.95 tokens/secs  | 178.39 tokens/secs  | 242.59 tokens/secs  |
+|         | 8          | 439.06 tokens/secs  | 354.64 tokens/secs  | 477.96 tokens/secs  |
+|         | 16         | 796.42 tokens/secs  | 686.38 tokens/secs  | 823.16 tokens/secs  |
+|         | 32         | 1263.31 tokens/secs | 1164.31 tokens/secs | 1298.37 tokens/secs |
+```
+
+# Almost negligible slowdown
 
 # TGI:1.0.1 NUM_SHARD=4
 
